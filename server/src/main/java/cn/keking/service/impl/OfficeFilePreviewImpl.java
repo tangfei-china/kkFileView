@@ -59,6 +59,8 @@ public class OfficeFilePreviewImpl implements FilePreview {
             if (ConfigConstants.getOfficeTypeWeb() .equalsIgnoreCase("web")) {
                 if (suffix.equalsIgnoreCase("xlsx")) {
                     model.addAttribute("pdfUrl", KkFileUtils.htmlEscape(url)); //特殊符号处理
+                    // 加入缓存
+                    fileHandlerService.addConvertedFile(cacheName, fileHandlerService.getRelativePath(outFilePath));
                     return XLSX_FILE_PREVIEW_PAGE;
                 }
                 if (suffix.equalsIgnoreCase("csv")) {
