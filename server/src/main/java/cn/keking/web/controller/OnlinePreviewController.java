@@ -7,6 +7,7 @@ import cn.keking.service.FilePreviewFactory;
 import cn.keking.service.cache.CacheService;
 import cn.keking.service.impl.OtherFilePreviewImpl;
 import cn.keking.utils.KkFileUtils;
+import cn.keking.utils.SslUtils;
 import cn.keking.utils.WebUtils;
 import fr.opensagres.xdocreport.core.io.IOUtils;
 import io.mola.galimatias.GalimatiasParseException;
@@ -106,7 +107,7 @@ public class OnlinePreviewController {
      * @param response response
      */
     @GetMapping("/getCorsFile")
-    public void getCorsFile(String urlPath, HttpServletResponse response) throws IOException {
+    public void getCorsFile(String urlPath, HttpServletResponse response) throws Exception {
         try {
             urlPath = WebUtils.decodeUrl(urlPath);
         } catch (Exception ex) {
@@ -116,6 +117,7 @@ public class OnlinePreviewController {
         HttpURLConnection urlcon = null;
         InputStream inputStream = null;
         String urlStr;
+        SslUtils.ignoreSsl();
         assert urlPath != null;
         if (!urlPath.toLowerCase().startsWith("http") && !urlPath.toLowerCase().startsWith("https") && !urlPath.toLowerCase().startsWith("ftp")) {
             logger.info("读取跨域文件异常，可能存在非法访问，urlPath：{}", urlPath);
